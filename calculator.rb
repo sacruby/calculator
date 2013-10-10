@@ -1,69 +1,78 @@
-#
 # Simple RPN Calculator
-#
-
 class CalculatorEngine
 
+  attr_accessor :memory
+
   def initialize
-    @memory = []  
+    @memory = []
   end
 
+  def clear_memory
+    self.memory = []
+  end
 
-  def run
-    done = false
+  def push_into_memory(v)
+    memory.push(v)
+  end
 
-    while not done do
-      print "> "
-      input = gets
-      
-      if input
-        input = input.chomp
+  def pull_from_memory
+    memory.pop
+  end
 
-        if input == 'q'
-          done = true
-        else
-          # operators will work on the stack, numbers will be added to stack
-          case input
-          when '0','1','2','3','4','5','6','7','8','9'    
-          	# ['0','1'].include?, %w(0 1).include?
-            @memory.push(input.to_f)
-            puts @memory.last
-          when 'c'
-            @memory = []
-            puts "Memory Cleared"
-          when 'm'
-            puts "Memory:"
-            position = 0
-            @memory.each do |m|
-              puts "\t#{position}: #{m}"
-              position = position + 1
-            end
-          when '+'
-            if @memory.length >= 2
-              op1 = @memory.pop
-              op2 = @memory.pop
-              @memory.push(op1 + op2)
-              puts "= #{@memory.last}"
-            else
-              puts "Error: Not Enough Operands"
-            end
-          else
-            puts "Error: Unsupported Operator: #{input}" unless input.empty?
-          end
+  def last_entry_in_memory
+    memory.last
+  end
 
-        end
-
-      else
-        done = true
-      end
-
+  def print_memory
+    memory.each_with_index do |memory, index|
+      print_message "\t#{index}: #{memory}"
     end
   end
 
+  def print_message(message)
+    puts message
+  end
+
+  def get_input
+    print "> "
+    input = gets
+    input.chomp
+  end
+
+  def add_operation
+   if memory.length >= 2
+      op1 = pull_from_memory
+      op2 = pull_from_memory
+      push_into_memory(op1 + op2)
+      print_message "= #{last_entry_in_memory}"
+    else
+      print_message "Error: Not Enough Operands"
+    end
+  end
+
+  def run
+    while true do
+      input = get_input
+      case input
+      when 'q'
+        exit
+      #when '0','1','2','3','4','5','6','7','8','9'
+      when /\d/
+        push_into_memory input.to_f
+        print_message last_entry_in_memory
+      when 'c'
+        clear_memory
+        print_message "Memory Cleared"
+      when 'm'
+        print_memory
+      when '+'
+        add_operation
+      else
+        print_message "Error: Unsupported Operator: #{input}" unless input.empty?
+      end
+    end
+  end
 end
 
 engine = CalculatorEngine.new
 engine.run
-
-
-# http://ruby-doc.org/

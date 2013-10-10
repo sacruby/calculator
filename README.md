@@ -10,12 +10,14 @@ Runs in a continuous loop until encountering the "q" (quit) command. It waits fo
 
 ## Extra Credit
 
-* Create a "paper tape" function "p" that prints out the history of all input including operators. "c" does not clear history. 
-* Add a clear all function that clears both. 
+* Create a "paper tape" function "p" that prints out the history of all input including operators. "c" does not clear history.
+* Add a clear all function that clears both.
 * Add support for entering floating point numbers.
-* Add a "pi" command that adds "Pi" to stack. 
+* Add a "pi" command that adds "Pi" to stack.
 * Add square root "sqrt".
+* Extract Memory into its own class
+* Extract operations into their own classes, and pass in memory object
 
 ## Extra Extra Credit
 
-* Save memory and history to a file, and read it in when the program is started 
+* Save memory and history to a file, and read it in when the program is started
